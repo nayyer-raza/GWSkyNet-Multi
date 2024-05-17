@@ -1,7 +1,7 @@
 '''
 Script to make GWSkyNet-Multi classification predictions for candidate CBC events from LVK Public Alerts.
 The script expects the candidate event ID to be provided as an argument.
-The prediction results are printed to the console, or saved in a text file if an output path is provided.
+The prediction results are saved in a text file.
 '''
 
 import numpy as np
