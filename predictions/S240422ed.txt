@@ -1,4 +1,6 @@
-Glitch-vs-all score: 1 +/- 1
-NS-vs-all score: 94 +/- 3
-BBH-vs-all score: 12 +/- 4
-Hierarchical classification: NS
+Predicted probabilities (%):
+Glitch: 58 +/- 17
+BBH: 0 +/- 0
+NSBH: 1 +/- 1
+BNS: 41 +/- 16
+Classification: Glitch
