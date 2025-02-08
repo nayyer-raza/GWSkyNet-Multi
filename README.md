@@ -37,10 +37,10 @@ If the user wishes to launch a listener that uses a GCN stream for LVK public al
 
 The GWSkyNet-Multi II model, shown below, is a neural network classifier and has only three layers following the concatenated inputs: 1) a dense layer of 8 neurons, 2) a second dense layer of 8 neurons, and 3) the final output dense layer of 4 neurons, each of which outputs the probability of the event belonging to one of the four classes: Glitch, BBH, NSBH, and BNS.
 
-![](figures/architecture.pdf)
+![](figures/architecture.png)
 
 ### O3 Performance
 
 Predicted vs. true classification confusion matrix for the 75 multi-detector CBC candidate events in the LVK third observing run (O3) for which a public alert was issued. The true classifications are determined from the final LVK O3 event catalog [GWTC-3](https://journals.aps.org/prx/abstract/10.1103/PhysRevX.13.041039). GWSkyNet-Multi II correctly classifies 61/75 (81%) of O3 events.
 
-![](figures/O3_classifications_confusion_matrix.pdf)
+![](figures/O3_classifications_confusion_matrix.png)
