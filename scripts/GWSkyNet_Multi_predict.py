@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import healpy as hp
 from astropy.io import fits
 from ligo.skymap import io
-from scipy.stats import norm as gaussian
+from ligo.skymap import postprocess
 from subprocess import run
 import json
 import os
@@ -56,39 +56,6 @@ else:
 
 ## FUNCTIONALITY TO READ FITS FILE, PROCESS AND PREPARE DATA FOR GWSKYNET-MULTI INPUT
 
-# Helper functions to calculate the 90% credible region for the localization area and volume
-#--------------------------------------------------------------------------------------------
-def calculate_area_CR(fits_file, CR=0.9):
-    (prob, mu, sigma, norm), metadata = io.read_sky_map(fits_file, distances=True, nest=None)
-    pix_area = hp.nside2pixarea(hp.npix2nside(np.size(prob)), degrees=True)
-    cum_prob = np.cumsum(np.sort(prob)[::-1])
-    sky_area = (np.nonzero(cum_prob >= CR)[0][0]+1) * pix_area
-    return sky_area
-
-def calculate_volume_CR(fits_file, CR=0.9):
-    (prob, mu, sigma, norm), metadata = io.read_sky_map(fits_file, distances=True, nest=None)
-    max_distance = metadata['distmean'] + 2.5 * metadata['diststd']
-
-    n_points = 100
-    npix = np.size(prob)
-    nside = hp.npix2nside(npix)
-    pixarea = hp.nside2pixarea(nside)
-    r_bins = np.linspace(0, max_distance**3,num=n_points+1)**(1/3)
-    r = np.linspace(0, max_distance**3,num=2*n_points+1)[1::2]**(1/3)
-    dV = r_bins[1]**3 * ((4*np.pi/3)/npix)
-    
-    npix_used = int(npix/5)
-    pix_used_inds = np.argsort(-prob)[:npix_used]
-    dV_probs = np.zeros((n_points,npix_used))
-    for j in range(n_points):
-        dV_probs[j] = prob[pix_used_inds] * norm[pix_used_inds] * gaussian(mu[pix_used_inds], sigma[pix_used_inds]).pdf(r[j]) * dV / pixarea
-    
-    dV_probs_sorted = -np.sort(-dV_probs,axis=None,kind='mergesort')
-    dV_probs_cumsum = np.cumsum(dV_probs_sorted)
-    volume = np.count_nonzero(dV_probs_cumsum <= CR) * dV
-    return volume
-#--------------------------------------------------------------------------------------------
-
 # Normalization factors (from the training) to normalize input values
 input_norms_file = data_path+'input_normalization_factors.json'
 with open(input_norms_file, 'r') as f:
@@ -114,8 +81,10 @@ def prepare_data(fits_file):
         print('WARNING: this is a single detector event. GWSkyNet-Multi is only trained to predict on multi-detector events. Results may be unreliable.')
 
     # Calculate the localization area and volume from the maps, and normalize
-    sky_area = np.log10(calculate_area_CR(fits_file, CR=0.9)) / input_norms['LogSkyArea90']
-    volume = np.log10(calculate_volume_CR(fits_file, CR=0.9)) / input_norms['LogVolume90']
+    skymap = io.read_sky_map(fits_file, distances=True, nest=None, moc=True)
+    credible_regions = postprocess.crossmatch(skymap, contours=(0.9,))
+    sky_area = np.log10(credible_regions.contour_areas[0]) / input_norms['LogSkyArea90']
+    volume = np.log10(credible_regions.contour_vols[0]) / input_norms['LogVolume90']
     
     # Combine all data for model input, in correct order and array shape
     data = [np.reshape(volume, (1,1)), np.reshape(sky_area, (1,1)), np.reshape(dets, (1,3)), np.reshape(dist_mean, (1,1)), np.reshape(dist_std, (1,1)), np.reshape(logBSN, (1,1)), np.reshape(logBCI, (1,1))]
