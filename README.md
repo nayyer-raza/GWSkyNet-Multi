@@ -44,3 +44,9 @@ The GWSkyNet-Multi II model, shown below, is a neural network classifier and has
 Predicted vs. true classification confusion matrix for the 75 multi-detector CBC candidate events in the LVK third observing run (O3) for which a public alert was issued. The true classifications are determined from the final LVK O3 event catalog [GWTC-3](https://journals.aps.org/prx/abstract/10.1103/PhysRevX.13.041039). GWSkyNet-Multi II correctly classifies 61/75 (81%) of O3 events.
 
 <img src="figures/O3_classifications_confusion_matrix.png" width="50%"/>
+
+### O4 Performance
+
+Model predicted vs. LVK latest classification confusion matrix for the 195 significant multi-detector CBC candidate events in the first two parts of the LVK fourth observing run (O4a and O4b). GWSkyNet-Multi II correctly classifies 182/195 (93%) of O4a+O4b events. Comparing to the latest LVK updated classification serves as a preliminary analysis, and a more complete and robust analysis will become possible once the final LVK O4 event catalog is released.
+
+<img src="figures/O4_significant_classifications_confusion_matrix.png" width="50%"/>
