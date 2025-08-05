@@ -1,6 +1,6 @@
 # GWSkyNet-Multi
 
-GWSkyNet-Multi is a deep learning model developed for the classification of candidate gravitational-wave events detected by the LIGO and Virgo observatories. This repository contains the published models together with scripts and instructions on how to use the classifier.
+GWSkyNet-Multi is a neural network based machine learning model developed for the classification of candidate gravitational-wave events detected by the LIGO and Virgo observatories. This repository contains the published model together with scripts and instructions on how to use the model.
 
 The model uses localization information released in the low-latency public alerts to produce classification probabilities indicating whether an event is a binary black hole (BBH) merger, a neutron star - black hole (NSBH) merger, a binary neutron star (BNS) merger, or a non-astrophysical transient noise event in the detectors known as a "glitch". The classification facilitates time-sensitive decisions about whether to perform electromagnetic follow-up of candidate events during LIGO-Virgo-KAGRA (LVK) observing runs.
 
@@ -27,7 +27,7 @@ The final classifier outputs are the prediction probabilities of the four possib
 
 To set up the environment with the required packages you can use either the provided yml file (conda) or txt file (pip). The following commands should accomplish this: `$ conda env create --file gwskynet_multi_predictions.yml` or `$ python3 -m pip install -r requirements.txt`
 
-If the user has the candidate event name, then the script [GWSkyNet_Multi_predict](scripts/GWSkyNet_Multi_predict.py) can be executed with the event name provided as an argument, which will download the BAYESTAR FITS file from GraceDB, make the predictions, and save the results. Run the script with `--help` to see other argument details.
+If the user has the candidate event name, then the script [GWSkyNet_Multi_predict](scripts/GWSkyNet_Multi_predict.py) can be executed with the event name provided as an argument, which will download the BAYESTAR FITS file from GraceDB, make the predictions, and save the results (e.g., `$ python GWSkyNet_Multi_predict.py --superevent-id S240422ed`). Run the script with `--help` to see other argument details.
 
 If the user wishes to launch a listener that uses a GCN stream for LVK public alerts, and then make predictions once a candidate CBC event alert is issued, then the script [LVK_alert_stream_and_predict](scripts/LVK_alert_stream_and_predict.py) can be executed. Note that the user's GCN client ID and client secret for the stream must be provided. If these have not already been set up, see the "Account Creation and Credential Generation" section at https://emfollow.docs.ligo.org/userguide/tutorial/receiving/gcn.html.
 
@@ -47,6 +47,6 @@ Predicted vs. true classification confusion matrix for the 75 multi-detector CBC
 
 ### O4 Performance
 
-Model predicted vs. LVK latest classification confusion matrix for the 195 significant multi-detector CBC candidate events in the first two parts of the LVK fourth observing run (O4a and O4b). GWSkyNet-Multi II correctly classifies 182/195 (93%) of O4a+O4b events. Comparing to the latest LVK updated classification serves as a preliminary analysis, and a more complete and robust analysis will become possible once the final LVK O4 event catalog is released.
+Model predicted vs. LVK latest classification confusion matrix for the 195 significant multi-detector CBC candidate events in the first two parts of the LVK fourth observing run (O4a and O4b). The GWSkyNet-Multi II predicted class is consistent with the LVK updated class for 182/195 (93%) events. Comparing to the latest LVK updated classification serves as a preliminary analysis, and a more complete and robust analysis will become possible once the final LVK O4 event catalogs are released.
 
 <img src="figures/O4_significant_classifications_confusion_matrix.png" width="50%"/>
