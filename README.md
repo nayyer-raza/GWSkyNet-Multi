@@ -9,7 +9,7 @@ The latest model, GWSkyNet-Multi II, is described in [Raza et al. (2025)](https:
 
 ## Inputs
 
-The input to the classifier is the sky localization FITS file generated for the candidate LVK event by the rapid localization pipeline [BAYESTAR](https://journals.aps.org/prd/abstract/10.1103/PhysRevD.93.024013), and released to the public on [GraceDB](https://gracedb.ligo.org). Note that these BAYESTAR localization maps are only produced for candidate compact binary coalescence (CBC) sources that are found by one of the online modeled search pipelines (see [here](https://emfollow.docs.ligo.org/userguide/analysis/searches.html#modeled-search) for details), and not for unmodeled burst sources. Thus GWSkyNet-Multi can only be used to predict for candidate CBC events. The model is also trained on multi-detector events only, and so should not be used to predict on single detector events.
+The input to the classifier is the information contained in the sky localization FITS file generated for the candidate LVK event by the rapid localization pipeline [BAYESTAR](https://journals.aps.org/prd/abstract/10.1103/PhysRevD.93.024013), and released to the public on [GraceDB](https://gracedb.ligo.org). Note that these BAYESTAR localization maps are only produced for candidate compact binary coalescence (CBC) sources that are found by one of the online modeled search pipelines (see [here](https://emfollow.docs.ligo.org/userguide/analysis/searches.html#modeled-search) for details), and not for unmodeled burst sources. Thus GWSkyNet-Multi can only be used to predict for candidate CBC events with BAYESTAR maps. The model is also trained on multi-detector events only, and so should not be used to predict on single detector events.
 
 ## Outputs
 
@@ -20,14 +20,15 @@ The final classifier outputs are the prediction probabilities of the four possib
 
 - The "data" folder contains the normalization factors (from the training data) that need to be applied to the model inputs.
 - The "models" folder contains the model file (json) for the model architecture and associated weights files (h5). There are 20 weights files corresponding to the final weights of the 20 trained models.
-- The "predictions" folder is where the results of the GWSkyNet-Multi predictions are saved as individual text files.
+- The "predictions" folder is where the results of the GWSkyNet-Multi predictions are saved as individual json files (and optionally text files).
 - The "scripts" folder contains the python scripts that can be used to perform classification with GWSkyNet-Multi.
 - The "skymaps" folder is where the scripts download and save the BAYESTAR localization FITS files for each candidate event.
 
+To set up the environment with the required packages you can use either the provided yml file (conda) or txt file (pip). GWSkyNet-Multi has been developed and tested with python 3.9 and 3.10, so we recommend python >= 3.9.
+- `$ conda env create --file gwskynet_multi.yml` will create a new conda environment and install all the required packages.
+- `$ python -m pip install -r requirements.txt` can be run in an already set-up (virtual) environment and will install the required packages (a new virtual environment can be created with the python [venv](https://docs.python.org/3.10/library/venv.html) module).
 
-To set up the environment with the required packages you can use either the provided yml file (conda) or txt file (pip). The following commands should accomplish this: `$ conda env create --file gwskynet_multi_predictions.yml` or `$ python3 -m pip install -r requirements.txt`
-
-If the user has the candidate event name, then the script [GWSkyNet_Multi_predict](scripts/GWSkyNet_Multi_predict.py) can be executed with the event name provided as an argument, which will download the BAYESTAR FITS file from GraceDB, make the predictions, and save the results (e.g., `$ python GWSkyNet_Multi_predict.py --superevent-id S240422ed`). Run the script with `--help` to see other argument details.
+If the user has the candidate event name, then the script [GWSkyNet_Multi_predict](scripts/GWSkyNet_Multi_predict.py) can be executed with the event name provided as an argument, which will download the BAYESTAR FITS file from GraceDB, make the predictions, and save the results (e.g., `$ python scripts/GWSkyNet_Multi_predict.py --superevent-id S240422ed`). Run the script with `--help` to see other argument details.
 
 If the user wishes to launch a listener that uses a GCN stream for LVK public alerts, and then make predictions once a candidate CBC event alert is issued, then the script [LVK_alert_stream_and_predict](scripts/LVK_alert_stream_and_predict.py) can be executed. Note that the user's GCN client ID and client secret for the stream must be provided. If these have not already been set up, see the "Account Creation and Credential Generation" section at https://emfollow.docs.ligo.org/userguide/tutorial/receiving/gcn.html.
 

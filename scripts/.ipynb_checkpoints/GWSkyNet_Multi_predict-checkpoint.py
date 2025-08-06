@@ -5,7 +5,10 @@ The prediction results are saved in a json file, and optionally a text file.
 '''
 
 import numpy as np
+import pandas as pd
 import tensorflow as tf
+import matplotlib.pyplot as plt
+import healpy as hp
 from astropy.io import fits
 from ligo.skymap import io
 from ligo.skymap import postprocess

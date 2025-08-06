@@ -5,12 +5,7 @@ dependencies:
   - astropy=6.0.1
   - gcn-kafka=0.3.3
   - ligo.skymap=1.1.2
-  - matplotlib=3.7.3
   - numpy=1.26.4
-  - pandas=2.2.1
   - python=3.10.14
-  - scikit-image=0.22.0
-  - scikit-learn=1.2.1
-  - scipy==1.13.0
   - tensorflow=2.15.0
-name: gwskynet_multi_predictions
+name: gwskynet_multi
