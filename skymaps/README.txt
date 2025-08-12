@@ -1,0 +1,1 @@
+GWSkyNet-Multi will download the candidate event BAYESTAR sky localization map from GraceDB in this directory, if not provided by the user.
