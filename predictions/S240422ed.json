@@ -1,0 +1,11 @@
+{
+    "Glitch": 58,
+    "Glitch_uncertainty": 17,
+    "BBH": 0,
+    "BBH_uncertainty": 0,
+    "NSBH": 1,
+    "NSBH_uncertainty": 1,
+    "BNS": 41,
+    "BNS_uncertainty": 16,
+    "Classification": "Glitch"
+}

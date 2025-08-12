@@ -87,7 +87,6 @@ def prepare_data(fits_file):
     
     # Combine all data for model input, in correct order and array shape
     data = [np.reshape(volume, (1,1)), np.reshape(sky_area, (1,1)), np.reshape(dets, (1,3)), np.reshape(dist_mean, (1,1)), np.reshape(dist_std, (1,1)), np.reshape(logBSN, (1,1)), np.reshape(logBCI, (1,1))]
-    #data = [volume, sky_area, np.array(dets), dist_mean, dist_std, logBSN, logBCI]
     return data
 
 
